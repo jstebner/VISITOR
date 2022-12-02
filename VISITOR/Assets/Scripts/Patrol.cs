@@ -24,10 +24,12 @@ public class Patrol : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!patrol) {return;}
-        distanceFromWaypoint = Vector2.Distance(transform.position, waypoints[waypointIndex].position);
+        Vector3 currentPosition = new Vector3(transform.position.x, 0f, transform.position.z);
+        Vector3 waypointPosition = new Vector3(waypoints[waypointIndex].position.x, 0f, waypoints[waypointIndex].position.z);
+        distanceFromWaypoint = Vector3.Distance(currentPosition, waypointPosition);
         if (distanceFromWaypoint <= minimumDistanceFromWaypoint) {
             if (loop) {
                 IncrementLoopWaypointIndex();
@@ -53,7 +55,11 @@ public class Patrol : MonoBehaviour
     }
 
     void IncrementLoopWaypointIndex() {
-        waypointIndex = (waypointIndex + 1) % waypoints.Length;
+        waypointIndex++;
+        if (waypointIndex == waypoints.Length) {
+            waypointIndex = 0;
+        }
+        distanceFromWaypoint = Vector2.Distance(transform.position, waypoints[waypointIndex].position);
     }
 
     void IncrementBackAndForthWaypointIndex() {
@@ -65,6 +71,6 @@ public class Patrol : MonoBehaviour
         } else if (!nextWaypointDirection && waypointIndex > 0) {
             waypointIndex--;
         }
-
+        distanceFromWaypoint = Vector2.Distance(transform.position, waypoints[waypointIndex].position);     
     }
 }

@@ -20,7 +20,11 @@ public class Patrol : MonoBehaviour
     {
         waypointIndex = 0;
         agent = this.GetComponent<NavMeshAgent>();
-        transform.LookAt(waypoints[waypointIndex]);
+        if (waypoints.Length == 0)
+            patrol = false; 
+        
+        if (patrol)
+            transform.LookAt(waypoints[waypointIndex]);
     }
 
     // Update is called once per frame

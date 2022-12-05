@@ -233,11 +233,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd5e452abb477814c9ed88ec36012056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waypoints: []
+  waypoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   loop: 0
   minimumDistanceFromWaypoint: 0.7
-  turnSpeed: 1
-  lookAngleBeforeMoving: 10
+  turnSpeed: 2.5
+  lookAngleBeforeMoving: 15
 --- !u!114 &1151365966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,3 +255,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 200
+  player: {fileID: 0}
+  minimumDistanceFromPlayer: 4
+  maxCloseToPlayerTime: 3
+  maxResetTime: 3
+  maxTimeToTargetPlayer: 10

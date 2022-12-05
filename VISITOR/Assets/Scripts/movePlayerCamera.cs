@@ -5,11 +5,11 @@ using UnityEngine;
 public class movePlayerCamera : MonoBehaviour
 {
 
-    public Transform player;
+    public Transform playerCameraPosition;
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = player.position;
+        transform.position = playerCameraPosition.position;
     }
 }

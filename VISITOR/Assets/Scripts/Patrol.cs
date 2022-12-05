@@ -9,6 +9,7 @@ public class Patrol : MonoBehaviour
     [SerializeField] private bool loop;
     private bool patrol = true;
     private NavMeshAgent agent;
+    private Visitor visitor;
     private int waypointIndex;
     private float distanceFromWaypoint;
     [SerializeField] private float minimumDistanceFromWaypoint;
@@ -19,7 +20,8 @@ public class Patrol : MonoBehaviour
     void Start()
     {
         waypointIndex = 0;
-        agent = this.GetComponent<NavMeshAgent>();
+        agent = GetComponent<NavMeshAgent>();
+        visitor = GetComponent<Visitor>();
         if (waypoints.Length == 0)
             patrol = false; 
         
@@ -30,6 +32,7 @@ public class Patrol : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        patrol = visitor.getState() == Visitor.State.Patrol && waypoints.Length > 0;
         if (!patrol) {return;}
         Vector3 currentPosition = new Vector3(transform.position.x, 0f, transform.position.z);
         Vector3 waypointPosition = new Vector3(waypoints[waypointIndex].position.x, 0f, waypoints[waypointIndex].position.z);

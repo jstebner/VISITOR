@@ -142,6 +142,7 @@ GameObject:
   - component: {fileID: 4610512318506388684}
   - component: {fileID: 4610512318506388685}
   - component: {fileID: 4610512318506388686}
+  - component: {fileID: 19343331}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -235,6 +236,21 @@ MonoBehaviour:
   playerCamera: {fileID: 0}
   sightCone: 0.9
   maxLookTime: 3
+--- !u!114 &19343331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4610512318506388721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 365c945955b2e614bad0edd7de116d45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 0}
+  gun: {fileID: 0}
+  pickUpDistance: 5
 --- !u!1 &4610512319502225857
 GameObject:
   m_ObjectHideFlags: 0

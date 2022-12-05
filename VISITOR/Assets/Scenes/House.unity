@@ -123,31 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: e4d30730691bd624ab25c8ff37e10b11, type: 2}
---- !u!1 &19343325 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4610512318506388721, guid: 1fd6d5dd8f7eb3c438f15dad8699188f, type: 3}
-  m_PrefabInstance: {fileID: 4610512318487718700}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &19343327 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4610512318506388723, guid: 1fd6d5dd8f7eb3c438f15dad8699188f, type: 3}
   m_PrefabInstance: {fileID: 4610512318487718700}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &19343331
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 19343325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 365c945955b2e614bad0edd7de116d45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCamera: {fileID: 702315495}
-  gun: {fileID: 1513130420}
-  pickUpDistance: 5
 --- !u!1 &82312273
 GameObject:
   m_ObjectHideFlags: 0
@@ -7646,10 +7626,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2252001783672747375, guid: 3c91193abc75cde4d9316ae84597a8d1, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2252001784517007800, guid: 3c91193abc75cde4d9316ae84597a8d1, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -7698,14 +7674,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: WeaponHolder
       objectReference: {fileID: 0}
-    - target: {fileID: 2252001784517007801, guid: 3c91193abc75cde4d9316ae84597a8d1, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2252001784517007806, guid: 3c91193abc75cde4d9316ae84597a8d1, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2252001784517007806, guid: 3c91193abc75cde4d9316ae84597a8d1, type: 3}
       propertyPath: orientation
       value: 
@@ -7723,6 +7691,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 19343331, guid: 1fd6d5dd8f7eb3c438f15dad8699188f, type: 3}
+      propertyPath: gun
+      value: 
+      objectReference: {fileID: 1513130420}
+    - target: {fileID: 19343331, guid: 1fd6d5dd8f7eb3c438f15dad8699188f, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 702315495}
     - target: {fileID: 4610512318506388686, guid: 1fd6d5dd8f7eb3c438f15dad8699188f, type: 3}
       propertyPath: visitor
       value: 

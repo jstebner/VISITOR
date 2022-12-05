@@ -13,8 +13,6 @@ public class Gun : MonoBehaviour
     private bool reloading;
     private float timeSinceLastShot;
     
-
-
     // Start is called before the first frame update
     void Start()
     {

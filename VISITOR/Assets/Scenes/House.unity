@@ -128,6 +128,26 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4610512318506388723, guid: 1fd6d5dd8f7eb3c438f15dad8699188f, type: 3}
   m_PrefabInstance: {fileID: 4610512318487718700}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &52528855 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7879630977770776478, guid: b55d543dc08711f46b8163505d01537f, type: 3}
+  m_PrefabInstance: {fileID: 7879630978206692597}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &52528858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 52528855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89dc44d31dfded54ba31b11fd3044773, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensX: 400
+  sensY: 400
+  orientation: {fileID: 521204514}
 --- !u!1 &82312273
 GameObject:
   m_ObjectHideFlags: 0
@@ -4948,6 +4968,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7879630977531645714, guid: b55d543dc08711f46b8163505d01537f, type: 3}
   m_PrefabInstance: {fileID: 7879630978206692597}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &729612335 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4610512318506388721, guid: 1fd6d5dd8f7eb3c438f15dad8699188f, type: 3}
+  m_PrefabInstance: {fileID: 4610512318487718700}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &729612341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 729612335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e490c942eca142468635b3ffa392c04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &792674594
 Mesh:
   m_ObjectHideFlags: 0
@@ -7607,6 +7644,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2252001783672747375, guid: 3c91193abc75cde4d9316ae84597a8d1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2252001784517007800, guid: 3c91193abc75cde4d9316ae84597a8d1, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -7805,5 +7846,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CameraHolder
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7879630977531645725, guid: b55d543dc08711f46b8163505d01537f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b55d543dc08711f46b8163505d01537f, type: 3}

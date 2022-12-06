@@ -14,12 +14,11 @@ public class playerInteract : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E)) {
             Physics.Raycast(playerCamera.position, playerCamera.forward, out RaycastHit hitInfo, pickUpDistance);
-            Debug.Log(hitInfo.transform.name);
-            if (hitInfo.transform.tag == "Gun") {
+            if (hitInfo.transform?.tag == "Gun") {
                 gun.SetActive(true);
                 Destroy(hitInfo.transform.gameObject);
             }
-            if (hitInfo.transform.tag == "Flashlight") {
+            if (hitInfo.transform?.tag == "Flashlight") {
                 //flashlight.setActive(true);
             }
         }

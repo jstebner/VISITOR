@@ -16,20 +16,22 @@ public class playerLineOfSight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 dirFromPlayerToVisitor = (visitor.position - transform.position).normalized;
-        float dotProduct = Vector3.Dot(dirFromPlayerToVisitor, playerCamera.forward);
-        if (dotProduct > sightCone) {
-            Physics.Raycast(transform.position, dirFromPlayerToVisitor, out RaycastHit hitInfo);
-            if (hitInfo.transform.name == "VisitorPrefab") {
-                lookTime += Time.deltaTime;
+        if (visitor != null) {
+            Vector3 dirFromPlayerToVisitor = (visitor.position - transform.position).normalized;
+            float dotProduct = Vector3.Dot(dirFromPlayerToVisitor, playerCamera.forward);
+            if (dotProduct > sightCone) {
+                Physics.Raycast(transform.position, dirFromPlayerToVisitor, out RaycastHit hitInfo);
+                if (hitInfo.transform.name == "VisitorPrefab") {
+                    lookTime += Time.deltaTime;
+                } else {
+                    lookTime = 0;
+                }
             } else {
                 lookTime = 0;
             }
-        } else {
-            lookTime = 0;
-        }
-        if (lookTime >= maxLookTime && visitorScript.getState() == Visitor.State.Patrol) {
-            visitorScript.setState(Visitor.State.TargetPlayer);
+            if (lookTime >= maxLookTime && visitorScript.getState() == Visitor.State.Patrol) {
+                visitorScript.setState(Visitor.State.TargetPlayer);
+            }
         }
     }
 }

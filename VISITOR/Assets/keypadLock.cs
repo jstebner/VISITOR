@@ -6,8 +6,8 @@ using TMPro;
 
 public class keypadLock : MonoBehaviour
 {
+    public openGunBox gunboxScript;
     [SerializeField] private TextMeshProUGUI codeText;
-    [SerializeField] private Transform Safe;
     public PlayerCamera playerCamera;
     private GameObject keypadCanvas;
     private string correctCode = "1234";
@@ -41,7 +41,7 @@ public class keypadLock : MonoBehaviour
     }
 
     void openSafe() {
-        Debug.Log("Opened");
+        gunboxScript.open();
     }
 
     public void addDigit(string digit) {

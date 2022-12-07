@@ -12,6 +12,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private float fireRate;
     private bool reloading;
     private float timeSinceLastShot;
+    public Transform bulletDirection;
     
     // Start is called before the first frame update
     void Start()
@@ -47,7 +48,7 @@ public class Gun : MonoBehaviour
     private void Shoot()
     {
         if (currentAmmo > 0 && CanShoot()) {
-            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitInfo, maxDistance)) {
+            if (Physics.Raycast(bulletDirection.position, bulletDirection.forward, out RaycastHit hitInfo, maxDistance)) {
                 Debug.Log(hitInfo.transform.name);
                 IDamageable target = hitInfo.transform.GetComponent<IDamageable>();
                 target?.Damage(damage);

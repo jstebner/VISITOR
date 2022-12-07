@@ -14,9 +14,15 @@ public class SimpleGrabSystem : MonoBehaviour
     private Transform slot;
     // Reference to the currently held item.
     private PickableItem pickedItem;
+    private playerShoot shootScript;
     /// <summary>
     /// Method called very frame.
     /// </summary>
+
+    private void Start() {
+        shootScript = GameObject.Find("Player").GetComponent<playerShoot>();
+    }
+
     private void Update()
     {
         // Execute logic only on button pressed
@@ -69,6 +75,10 @@ public class SimpleGrabSystem : MonoBehaviour
         
         
         item.GetComponent<Collider>().enabled = false;
+        
+        if (item.name == "M1911") {
+            shootScript.setHolding(true);
+        }
     }
     /// <summary>
     /// Method for dropping item.
@@ -86,5 +96,9 @@ public class SimpleGrabSystem : MonoBehaviour
         item.Rb.AddForce(item.transform.forward * 2, ForceMode.VelocityChange);
         item.GetComponent<Collider>().enabled = true;
         item.transform.localScale = new Vector3(2,2,2);
+        
+        if (item.name == "M1911") {
+            shootScript.setHolding(false);
+        }
     }
 }

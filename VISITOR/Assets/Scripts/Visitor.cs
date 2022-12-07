@@ -24,6 +24,11 @@ public class Visitor : MonoBehaviour, IDamageable
     [SerializeField] private State startingState;
     [SerializeField] private bool canSwitchState;
 
+    [SerializeField] private GameObject deathScreenUI;
+    [SerializeField] private GameObject winScreenUI;
+    
+    public PlayerCamera playerCamera;
+
     private State state;
     public enum State {
         Patrol,
@@ -47,7 +52,11 @@ public class Visitor : MonoBehaviour, IDamageable
                     resetTime = 0;
                     Debug.Log(closeToPlayerTime);
                     if (closeToPlayerTime >= maxCloseToPlayerTime) {
-                        Debug.Log("Player Killed");
+                        player.GetComponent<playerMovement>().canMove = false;
+                        deathScreenUI.SetActive(true);
+                        Cursor.lockState = CursorLockMode.None;
+                        Cursor.visible = true;
+                        playerCamera.setControl(false);
                 }
                 } else {
                     resetTime += Time.deltaTime;
@@ -86,6 +95,11 @@ public class Visitor : MonoBehaviour, IDamageable
         health -= damage;
         if (health <= 0) {
             Destroy(gameObject);
+            player.GetComponent<playerMovement>().canMove = false;
+            winScreenUI.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            playerCamera.setControl(false);
         }
     }
 
@@ -95,7 +109,7 @@ public class Visitor : MonoBehaviour, IDamageable
 
     public void setState(State newState) {
         if (!canSwitchState) return;
-        
+
         switch (newState) {
             case State.NonPhysical:
                 Debug.Log("Nonphysical");

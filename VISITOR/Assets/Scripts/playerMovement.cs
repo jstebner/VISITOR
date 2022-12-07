@@ -25,6 +25,8 @@ public class playerMovement : MonoBehaviour
     private bool readyToJump = true;
     private bool isGrounded;
 
+    public bool canMove = true;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -32,11 +34,14 @@ public class playerMovement : MonoBehaviour
     }
 
     private void FixedUpdate() {
+        if (!canMove) return;
         movePlayer();
     }
 
     private void Update()
     {
+        if (!canMove) return;
+
         isGrounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.1f, whatIsGround);
         
         horizontalInput = Input.GetAxisRaw("Horizontal");

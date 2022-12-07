@@ -21,6 +21,9 @@ public class Visitor : MonoBehaviour, IDamageable
     private float waitingTime;
     private float timeSpentWaiting;
 
+    [SerializeField] private State startingState;
+    [SerializeField] private bool canSwitchState;
+
     private State state;
     public enum State {
         Patrol,
@@ -31,7 +34,7 @@ public class Visitor : MonoBehaviour, IDamageable
 
     void Start() {
         agent = GetComponent<NavMeshAgent>();
-        state = State.Patrol;
+        state = startingState;
     }
 
     void Update() {
@@ -91,7 +94,8 @@ public class Visitor : MonoBehaviour, IDamageable
     }
 
     public void setState(State newState) {
-
+        if (!canSwitchState) return;
+        
         switch (newState) {
             case State.NonPhysical:
                 Debug.Log("Nonphysical");

@@ -7,6 +7,7 @@ public class Visitor : MonoBehaviour, IDamageable
 {
     [SerializeField] private float health = 200f;
     private NavMeshAgent agent;
+    private Patrol patrolScript;
     public Transform player;
     private float distanceFromPlayer;
     [SerializeField] private float minimumDistanceFromPlayer;
@@ -26,6 +27,8 @@ public class Visitor : MonoBehaviour, IDamageable
 
     [SerializeField] private GameObject deathScreenUI;
     [SerializeField] private GameObject winScreenUI;
+
+    [SerializeField] private GameObject waitingPosition;
     
     public PlayerCamera playerCamera;
 
@@ -40,6 +43,7 @@ public class Visitor : MonoBehaviour, IDamageable
     void Start() {
         agent = GetComponent<NavMeshAgent>();
         state = startingState;
+        patrolScript = GetComponent<Patrol>();
     }
 
     void Update() {
@@ -57,7 +61,7 @@ public class Visitor : MonoBehaviour, IDamageable
                         Cursor.lockState = CursorLockMode.None;
                         Cursor.visible = true;
                         playerCamera.setControl(false);
-                }
+                    }
                 } else {
                     resetTime += Time.deltaTime;
                     if (resetTime >= maxResetTime) {
@@ -68,8 +72,9 @@ public class Visitor : MonoBehaviour, IDamageable
                 }
                 timeTargetingPlayer += Time.deltaTime;
                 if (timeTargetingPlayer >= maxTimeToTargetPlayer) {
-                    setState(State.Patrol);
+                    setState(State.Waiting);
                     timeTargetingPlayer = 0;
+                    player.GetComponent<playerLineOfSight>().resetLookTime();
                 }
                 break;
             case State.Waiting:
@@ -77,6 +82,7 @@ public class Visitor : MonoBehaviour, IDamageable
                 if (timeSpentWaiting >= waitingTime) {
                     State newState;
                     newState = (State)Random.Range(0,1); // Randomly choose between patrol or nonphysical
+                    timeSpentWaiting = 0;
                     setState(newState);
                 }
                 break;
@@ -84,6 +90,14 @@ public class Visitor : MonoBehaviour, IDamageable
                 timeSpentWaiting += Time.deltaTime;
                 if (timeSpentWaiting >= waitingTime) {
                     setState(State.Waiting);
+                }
+                break;
+            case State.Patrol:
+                if (isPlayerDownstairs()) {
+                    patrolScript.setDownStairsActive();
+                }
+                else {
+                    patrolScript.setUpstairsActive();
                 }
                 break;
         }
@@ -119,6 +133,7 @@ public class Visitor : MonoBehaviour, IDamageable
                 break;
             case State.Waiting:
                 Debug.Log("Waiting");
+                agent.Warp(waitingPosition.transform.position);
                 waitingTime = Random.Range(5f,10f);
                 agent.isStopped = true;
                 state = State.Waiting;
@@ -127,6 +142,7 @@ public class Visitor : MonoBehaviour, IDamageable
                 Debug.Log("Patrol");
                 agent.isStopped = true;
                 state = State.Patrol;
+                patrolScript.resetActiveWaypoints();
                 agent.isStopped = false;
                 break;
             case State.TargetPlayer:
@@ -147,5 +163,9 @@ public class Visitor : MonoBehaviour, IDamageable
 
     public State getState() {
         return state;
+    }
+
+    private bool isPlayerDownstairs() {
+        return player.position.y < 4f;
     }
 }

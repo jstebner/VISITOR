@@ -34,4 +34,8 @@ public class playerLineOfSight : MonoBehaviour
             }
         }
     }
+
+    public void resetLookTime() {
+        lookTime = 0;
+    }
 }

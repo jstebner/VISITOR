@@ -66,4 +66,8 @@ public class keypadLock : MonoBehaviour
     public void clearCode() {
         currentCodeValue = "";
     }
+
+    public void setCorrectCode(string code) {
+        correctCode = code;
+    }
 }

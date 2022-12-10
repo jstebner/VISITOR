@@ -11,6 +11,7 @@ public class Patrol : MonoBehaviour
     [SerializeField] private bool loop;
     private bool patrol = false;
     private NavMeshAgent agent;
+    private playerLineOfSight playerLineOfSightScript;
     private Visitor visitor;
     private int waypointIndex;
     private float distanceFromWaypoint;
@@ -19,11 +20,14 @@ public class Patrol : MonoBehaviour
     [SerializeField] private float lookAngleBeforeMoving;
     private bool isUpstairs;
     private bool nextWaypointDirection = true; // true -> forward, false -> backward
+    private int jumpsBeforeWaiting;
     // Start is called before the first frame update
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         visitor = GetComponent<Visitor>();
+        jumpsBeforeWaiting = Random.Range(5, 15);
+        playerLineOfSightScript = GameObject.Find("Player").GetComponent<playerLineOfSight>();
     }
 
     // Update is called once per frame
@@ -52,6 +56,8 @@ public class Patrol : MonoBehaviour
 
     void IncrementLoopWaypointIndex() {
         waypointIndex++;
+        jumpsBeforeWaiting--;
+        Debug.Log(jumpsBeforeWaiting);
         if (waypointIndex == activeWaypoints.Length) {
             waypointIndex = 0;
         }
@@ -67,15 +73,19 @@ public class Patrol : MonoBehaviour
         } else if (!nextWaypointDirection && waypointIndex > 0) {
             waypointIndex--;
         }
+        jumpsBeforeWaiting--;
         distanceFromWaypoint = Vector2.Distance(transform.position, activeWaypoints[waypointIndex].position);     
     }
 
     public void setUpstairsActive() {
         if (activeWaypoints == null || !isUpstairs) {
+            agent.SetDestination(agent.transform.position);
             agent.isStopped = true;
             activeWaypoints = upStairsWaypoints;
             if (activeWaypoints.Length == 0) {return;}
-            waypointIndex = Random.Range(0, activeWaypoints.Length);
+            do {
+                waypointIndex = Random.Range(0, activeWaypoints.Length);
+            } while (playerLineOfSightScript.hasLineOfSightWithWaypoint(activeWaypoints[waypointIndex]));
             agent.Warp(activeWaypoints[waypointIndex].position);
             if (loop) {
                 IncrementLoopWaypointIndex();
@@ -91,10 +101,13 @@ public class Patrol : MonoBehaviour
 
     public void setDownStairsActive() {
         if (activeWaypoints == null || isUpstairs) {
+            agent.SetDestination(agent.transform.position);
             agent.isStopped = true;
             activeWaypoints = downStairsWaypoints;
             if (activeWaypoints.Length == 0) {return;}
-            waypointIndex = Random.Range(0, activeWaypoints.Length);
+            do {
+                waypointIndex = Random.Range(0, activeWaypoints.Length);
+            } while (playerLineOfSightScript.hasLineOfSightWithWaypoint(activeWaypoints[waypointIndex]));
             agent.Warp(activeWaypoints[waypointIndex].position);
             if (loop) {
                 IncrementLoopWaypointIndex();
@@ -109,7 +122,23 @@ public class Patrol : MonoBehaviour
     }
 
     public void resetActiveWaypoints() {
+        agent.SetDestination(agent.transform.position);
         agent.isStopped = true;
         activeWaypoints = null;
+        setRemainingJumps(Random.Range(5, 15));
+        setDirection(Random.Range(0,2) == 1);
     }
+
+    private void setRemainingJumps(int jumps) {
+        jumpsBeforeWaiting = jumps;
+    }
+
+    private void setDirection(bool direction) {
+        nextWaypointDirection = direction;
+    }
+
+    public int getRemainingJumps() {
+        return jumpsBeforeWaiting;
+    }
+
 }

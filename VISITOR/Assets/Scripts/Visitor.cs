@@ -32,10 +32,11 @@ public class Visitor : MonoBehaviour, IDamageable
     
     public PlayerCamera playerCamera;
 
+    private bool playerIsDownstairs; 
+
     private State state;
     public enum State {
         Patrol,
-        NonPhysical,
         TargetPlayer,
         Waiting,
     }
@@ -44,6 +45,7 @@ public class Visitor : MonoBehaviour, IDamageable
         agent = GetComponent<NavMeshAgent>();
         state = startingState;
         patrolScript = GetComponent<Patrol>();
+        playerIsDownstairs = isPlayerDownstairs();
     }
 
     void Update() {
@@ -51,10 +53,10 @@ public class Visitor : MonoBehaviour, IDamageable
         switch (state) {
             case State.TargetPlayer:
                 if (distanceFromPlayer <= minimumDistanceFromPlayer) {
+                    agent.SetDestination(agent.transform.position);
                     agent.isStopped = true;
                     closeToPlayerTime += Time.deltaTime;
                     resetTime = 0;
-                    Debug.Log(closeToPlayerTime);
                     if (closeToPlayerTime >= maxCloseToPlayerTime) {
                         player.GetComponent<playerMovement>().canMove = false;
                         deathScreenUI.SetActive(true);
@@ -69,30 +71,26 @@ public class Visitor : MonoBehaviour, IDamageable
                     }
                     agent.isStopped = false;
                     trackPlayer();
-                }
-                timeTargetingPlayer += Time.deltaTime;
-                if (timeTargetingPlayer >= maxTimeToTargetPlayer) {
-                    setState(State.Waiting);
-                    timeTargetingPlayer = 0;
-                    player.GetComponent<playerLineOfSight>().resetLookTime();
+                    timeTargetingPlayer += Time.deltaTime;
+                    if (timeTargetingPlayer >= maxTimeToTargetPlayer) {
+                        Debug.Log("Visitor waiting because targeting player for too long");
+                        setState(State.Waiting);
+                        player.GetComponent<playerLineOfSight>().resetLookTime();
+                    }
                 }
                 break;
             case State.Waiting:
                 timeSpentWaiting += Time.deltaTime;
                 if (timeSpentWaiting >= waitingTime) {
-                    State newState;
-                    newState = (State)Random.Range(0,1); // Randomly choose between patrol or nonphysical
-                    timeSpentWaiting = 0;
-                    setState(newState);
-                }
-                break;
-            case State.NonPhysical:
-                timeSpentWaiting += Time.deltaTime;
-                if (timeSpentWaiting >= waitingTime) {
-                    setState(State.Waiting);
+                    setState(State.Patrol);
                 }
                 break;
             case State.Patrol:
+                if (playerIsDownstairs != isPlayerDownstairs() || patrolScript.getRemainingJumps() == 0) {
+                    setState(State.Waiting);
+                    playerIsDownstairs = isPlayerDownstairs();
+                    return;
+                }
                 if (isPlayerDownstairs()) {
                     patrolScript.setDownStairsActive();
                 }
@@ -123,14 +121,11 @@ public class Visitor : MonoBehaviour, IDamageable
 
     public void setState(State newState) {
         if (!canSwitchState) return;
-
+        timeSpentWaiting = 0;
+        closeToPlayerTime = 0;
+        resetTime = 0;
+        timeTargetingPlayer = 0;
         switch (newState) {
-            case State.NonPhysical:
-                Debug.Log("Nonphysical");
-                waitingTime = Random.Range(5f,10f);
-                agent.isStopped = true;
-                state = State.NonPhysical;
-                break;
             case State.Waiting:
                 Debug.Log("Waiting");
                 agent.Warp(waitingPosition.transform.position);
@@ -139,24 +134,21 @@ public class Visitor : MonoBehaviour, IDamageable
                 state = State.Waiting;
                 break;
             case State.Patrol:
+                agent.speed = 3.5f;
                 Debug.Log("Patrol");
+                agent.SetDestination(agent.transform.position);
                 agent.isStopped = true;
                 state = State.Patrol;
                 patrolScript.resetActiveWaypoints();
                 agent.isStopped = false;
                 break;
             case State.TargetPlayer:
+                agent.speed = 9f;
                 Debug.Log("TARGET PLAYER");
+                agent.SetDestination(agent.transform.position);
                 agent.isStopped = true;
                 state = State.TargetPlayer;
                 agent.isStopped = false;                
-                break;
-            default:
-                Debug.Log("Invalid State setting to waiting...");
-                Debug.Log("Waiting");
-                waitingTime = Random.Range(5f,10f);
-                agent.isStopped = true;
-                state = State.Waiting;
                 break;
         }
     }

@@ -9,33 +9,65 @@ public class playerLineOfSight : MonoBehaviour
     public Visitor visitorScript;
     public Transform playerCamera;
     [SerializeField] private float sightCone;
-    [SerializeField] private float maxLookTime;
-    private float lookTime;
+    [SerializeField] private float maxLookingAwayTime;
+    private float lookingAwayTime = 0;
+
+    [SerializeField] private float maxLineOfSightTime;
+    private float lineOfSightTime = 0;
+
+    [SerializeField] private GameObject randomWaypoint;
 
     
     // Update is called once per frame
     void Update()
     {
-        if (visitor != null) {
-            Vector3 dirFromPlayerToVisitor = (visitor.position - transform.position).normalized;
+        if (visitor == null) {
+            return;
+        }
+
+        if (hasLineOfSightWithVisitor()) {
+            lineOfSightTime += Time.deltaTime;
+        }
+        if (lineOfSightTime >= maxLineOfSightTime && visitorScript.getState() == Visitor.State.Patrol) {
+            visitorScript.setState(Visitor.State.TargetPlayer);
+            lineOfSightTime = 0;
+            lookingAwayTime = 0;
+        }
+        if (visitorScript.getState() == Visitor.State.TargetPlayer) {
+            Vector3 dirFromPlayerToVisitor = (visitor.position - transform.position).normalized;        
             float dotProduct = Vector3.Dot(dirFromPlayerToVisitor, playerCamera.forward);
-            if (dotProduct > sightCone) {
-                Physics.Raycast(transform.position, dirFromPlayerToVisitor, out RaycastHit hitInfo);
-                if (hitInfo.transform.name == "VisitorPrefab") {
-                    lookTime += Time.deltaTime;
-                } else {
-                    lookTime = 0;
-                }
+            if (dotProduct < sightCone) {
+                lookingAwayTime += Time.deltaTime;
             } else {
-                lookTime = 0;
+                lookingAwayTime -= Time.deltaTime;
+                lookingAwayTime = Mathf.Clamp(lookingAwayTime, 0, maxLookingAwayTime);
             }
-            if (lookTime >= maxLookTime && visitorScript.getState() == Visitor.State.Patrol) {
-                visitorScript.setState(Visitor.State.TargetPlayer);
+            if (lookingAwayTime >= maxLookingAwayTime) {
+                Debug.Log("Visitor Waiting Because player looked away");
+                visitorScript.setState(Visitor.State.Waiting);
+                lineOfSightTime = 0;
+                lookingAwayTime = 0;
             }
         }
     }
 
     public void resetLookTime() {
-        lookTime = 0;
+        lookingAwayTime = 0;
+    }
+
+    public bool hasLineOfSightWithWaypoint(Transform obj) {
+        Vector3 dirFromPlayerToObject = (obj.position - transform.position).normalized;
+        float maxDistance = Vector3.Distance(transform.position, obj.position);
+        bool hit = Physics.Raycast(transform.position, dirFromPlayerToObject, out RaycastHit hitInfo, maxDistance);
+        if (hit) {
+            print($"Hit object when raycasting to {obj.name}: {hitInfo.transform.name}");
+        }
+        return !hit;
+    }
+
+    private bool hasLineOfSightWithVisitor() {
+        Vector3 dirFromPlayerToObject = (visitor.position - transform.position).normalized;
+        Physics.Raycast(transform.position, dirFromPlayerToObject, out RaycastHit hitInfo);
+        return hitInfo.transform.name == "VisitorPrefab";
     }
 }

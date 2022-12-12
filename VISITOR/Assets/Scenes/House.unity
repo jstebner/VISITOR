@@ -26387,7 +26387,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh23936
+  m_Name: pb_Mesh23990
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -27212,7 +27212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openingPrompt: {fileID: 233243182}
-  maxOpeningPromptTime: 3
+  openingPromptTime: 3
 --- !u!4 &457513218
 Transform:
   m_ObjectHideFlags: 0

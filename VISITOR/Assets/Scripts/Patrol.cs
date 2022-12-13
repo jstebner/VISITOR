@@ -55,12 +55,19 @@ public class Patrol : MonoBehaviour
     }
 
     void IncrementLoopWaypointIndex() {
-        waypointIndex++;
+        if (nextWaypointDirection) {
+            waypointIndex++;
+            if (waypointIndex == activeWaypoints.Length) {
+                waypointIndex = 0;
+            }
+        } else {
+            waypointIndex--;
+            if (waypointIndex == 0) {
+                waypointIndex = activeWaypoints.Length - 1;
+            }
+        }
         jumpsBeforeWaiting--;
         Debug.Log(jumpsBeforeWaiting);
-        if (waypointIndex == activeWaypoints.Length) {
-            waypointIndex = 0;
-        }
         distanceFromWaypoint = Vector2.Distance(transform.position, activeWaypoints[waypointIndex].position);
     }
 
@@ -126,7 +133,9 @@ public class Patrol : MonoBehaviour
         agent.isStopped = true;
         activeWaypoints = null;
         setRemainingJumps(Random.Range(5, 15));
-        setDirection(Random.Range(0,2) == 1);
+        bool newDirection = Random.Range(0, 2) == 1;
+        Debug.Log($"Direction: {newDirection}");
+        setDirection(newDirection);
     }
 
     private void setRemainingJumps(int jumps) {

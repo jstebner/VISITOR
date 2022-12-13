@@ -69,6 +69,9 @@ public class Visitor : MonoBehaviour, IDamageable
                         Cursor.visible = true;
                         playerCamera.setControl(false);
                         playerIsDead = true;
+                        player.GetComponent<playerMovement>().canMove = false;
+                        agent.SetDestination(agent.transform.position);
+                        agent.isStopped = true;
                     }
                 }
                 if (distanceFromPlayer <= minimumDistanceFromPlayer) {

@@ -90,4 +90,8 @@ public class playerMovement : MonoBehaviour
     private void resetJump() {
         readyToJump = true;
     }
+
+    public bool getGrounded() {
+        return isGrounded;
+    }
 }

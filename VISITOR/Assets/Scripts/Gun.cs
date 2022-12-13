@@ -13,6 +13,7 @@ public class Gun : MonoBehaviour
     private bool reloading;
     private float timeSinceLastShot;
     public Transform bulletDirection;
+    public AudioSource gunShotSoundEffect;
     
     // Start is called before the first frame update
     void Start()
@@ -55,7 +56,7 @@ public class Gun : MonoBehaviour
             }
             currentAmmo--;
             timeSinceLastShot = 0;
-
+            gunShotSoundEffect.Play();
         }
     }
 }

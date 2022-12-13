@@ -11,6 +11,7 @@ public class Visitor : MonoBehaviour, IDamageable
     public Transform player;
     private float distanceFromPlayer;
     [SerializeField] private float minimumDistanceFromPlayer;
+    [SerializeField] private float minimumDistanceBeforeDeathTimer;
 
     [SerializeField] private float maxCloseToPlayerTime;
     private float closeToPlayerTime;
@@ -32,6 +33,11 @@ public class Visitor : MonoBehaviour, IDamageable
     
     public PlayerCamera playerCamera;
 
+    public AudioSource visitorFootsteps;
+    public AudioSource visitorChasingPlayer;
+    public AudioSource playerDeathSound;
+
+    private bool playerIsDead = false;
     private bool playerIsDownstairs; 
 
     private State state;
@@ -52,18 +58,22 @@ public class Visitor : MonoBehaviour, IDamageable
         distanceFromPlayer = Vector3.Distance(transform.position, player.position);
         switch (state) {
             case State.TargetPlayer:
-                if (distanceFromPlayer <= minimumDistanceFromPlayer) {
-                    agent.SetDestination(agent.transform.position);
-                    agent.isStopped = true;
+                if (distanceFromPlayer <= minimumDistanceBeforeDeathTimer) {
                     closeToPlayerTime += Time.deltaTime;
                     resetTime = 0;
-                    if (closeToPlayerTime >= maxCloseToPlayerTime) {
+                    if (closeToPlayerTime >= maxCloseToPlayerTime && !playerIsDead) {
                         player.GetComponent<playerMovement>().canMove = false;
+                        playerDeathSound.Play();
                         deathScreenUI.SetActive(true);
                         Cursor.lockState = CursorLockMode.None;
                         Cursor.visible = true;
                         playerCamera.setControl(false);
+                        playerIsDead = true;
                     }
+                }
+                if (distanceFromPlayer <= minimumDistanceFromPlayer) {
+                    agent.SetDestination(agent.transform.position);
+                    agent.isStopped = true;
                 } else {
                     resetTime += Time.deltaTime;
                     if (resetTime >= maxResetTime) {
@@ -99,6 +109,12 @@ public class Visitor : MonoBehaviour, IDamageable
                 }
                 break;
         }
+
+        if (agent.velocity.magnitude > 0) {
+            visitorFootsteps.enabled = true;
+        } else {
+            visitorFootsteps.enabled = false;
+        }
     }
 
     public void Damage(float damage)
@@ -125,6 +141,11 @@ public class Visitor : MonoBehaviour, IDamageable
         closeToPlayerTime = 0;
         resetTime = 0;
         timeTargetingPlayer = 0;
+        if (newState == State.TargetPlayer) {
+            visitorChasingPlayer.enabled = true;
+        } else {
+            visitorChasingPlayer.enabled = false;
+        }
         switch (newState) {
             case State.Waiting:
                 Debug.Log("Waiting");

@@ -15,6 +15,7 @@ public class SimpleGrabSystem : MonoBehaviour
     // Reference to the currently held item.
     private PickableItem pickedItem;
     private playerShoot shootScript;
+    public menuController menuControllerScript;
     /// <summary>
     /// Method called very frame.
     /// </summary>
@@ -25,6 +26,10 @@ public class SimpleGrabSystem : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (menuControllerScript.getPaused()) {
+            return;
+        }
+
         // Execute logic only on button pressed
         if (Input.GetButtonDown("Interact"))
         {
@@ -40,6 +45,7 @@ public class SimpleGrabSystem : MonoBehaviour
                 // Create ray from center of the screen
                 var ray = characterCamera.ViewportPointToRay(Vector3.one * 0.5f);
                 RaycastHit hit;
+                Debug.DrawRay(ray.origin, ray.direction, Color.red, 3f);
                 // Shot ray to find object to pick
                 if (Physics.Raycast(ray, out hit, 2.6f))
                 {

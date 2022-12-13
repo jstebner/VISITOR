@@ -30757,6 +30757,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterCamera: {fileID: 702315497}
   slot: {fileID: 438732875}
+  menuControllerScript: {fileID: 457513217}
 --- !u!114 &729612348
 MonoBehaviour:
   m_ObjectHideFlags: 0

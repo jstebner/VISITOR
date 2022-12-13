@@ -9,6 +9,7 @@ public class playerShoot : MonoBehaviour
     public static Action shootInput;
     public static Action reload;
     private bool holdingWeapon;
+    public menuController menuControllerScript;
 
     void Start() {
         holdingWeapon = false;
@@ -17,8 +18,9 @@ public class playerShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!holdingWeapon) 
+        if (!holdingWeapon || menuControllerScript.getPaused()) {
             return;
+        }
 
         if (Input.GetMouseButtonDown(0)) {
             shootInput?.Invoke();

@@ -13,7 +13,7 @@ public class PlayerAudio : MonoBehaviour
         playerAudioSource = GetComponentInChildren<AudioSource>();
     }
 
-    void Update() {
+    void FixedUpdate() {
         if (playerMovementScript.getGrounded() && GetComponent<Rigidbody>().velocity.magnitude > 0) {
             playerAudioSource.enabled = true;
         } else {

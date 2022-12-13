@@ -10,7 +10,7 @@ public class reticleScript : MonoBehaviour
     public GameObject keybindIndicatorUI;
     public TextMeshProUGUI UItext;
 
-    void Update() {
+    void FixedUpdate() {
         if (!Physics.Raycast(playerCamera.position, playerCamera.forward, out RaycastHit hitInfo, interactDistance)) {
             setKeybindIndicator("");
             return;

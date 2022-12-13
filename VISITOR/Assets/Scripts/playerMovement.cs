@@ -33,13 +33,9 @@ public class playerMovement : MonoBehaviour
         rb.freezeRotation = true;
     }
 
-    private void FixedUpdate() {
-        if (!canMove) return;
-        movePlayer();
-    }
-
-    private void Update()
+    private void FixedUpdate()
     {
+        movePlayer();
         if (!canMove) return;
 
         isGrounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.1f, whatIsGround);

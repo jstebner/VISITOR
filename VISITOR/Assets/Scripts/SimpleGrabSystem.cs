@@ -23,7 +23,7 @@ public class SimpleGrabSystem : MonoBehaviour
         shootScript = GameObject.Find("Player").GetComponent<playerShoot>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         // Execute logic only on button pressed
         if (Input.GetButtonDown("Interact"))

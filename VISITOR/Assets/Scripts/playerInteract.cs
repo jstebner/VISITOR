@@ -9,11 +9,22 @@ public class playerInteract : MonoBehaviour
     //public GameObject flashlight;
     [SerializeField] private float interactDistance;
     private Transform physicalKeypadObject;
+    public menuController menuControllerScript;
 
     // Update is called once per frame
     void Update()
     {
+        if (menuControllerScript.getPaused()) {
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.F)) {
+            Debug.Log("pressed F");
+            if (keypad.activeSelf) {
+                keypad.SetActive(false);
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                return;
+            }
             Physics.Raycast(playerCamera.position, playerCamera.forward, out RaycastHit hitInfo, interactDistance);
             if (hitInfo.transform?.tag == "keypad") {
                 physicalKeypadObject = hitInfo.transform;

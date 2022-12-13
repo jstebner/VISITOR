@@ -15,11 +15,13 @@ public class keypadLock : MonoBehaviour
     void OnEnable() {
         Debug.Log("camera control: false");
         playerCamera.setControl(false);
+        codeText.text = "";
     }
 
     void OnDisable() {
         playerCamera.setControl(true);
         Debug.Log("camera control: true");
+        codeText.text = "";
     }
 
     void Start() {
@@ -28,16 +30,9 @@ public class keypadLock : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         codeText.text = currentCodeValue;
-
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-            currentCodeValue = "";
-            keypadCanvas.SetActive(false);
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
     }
 
     void openSafe() {

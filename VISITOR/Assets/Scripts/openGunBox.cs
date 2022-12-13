@@ -20,7 +20,7 @@ public class openGunBox : MonoBehaviour
         GameObject.Find("code").GetComponent<TextMeshPro>().text = passcode;
     }
 
-    void Update() {
+    void FixedUpdate() {
         if (toOpen && pivot.rotation.eulerAngles.x <= 45) {
             pivot.Rotate(new Vector3(1,0,0) * (rotationSpeed * Time.deltaTime));
         }

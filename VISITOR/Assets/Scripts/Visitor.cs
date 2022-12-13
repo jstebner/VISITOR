@@ -54,7 +54,7 @@ public class Visitor : MonoBehaviour, IDamageable
         playerIsDownstairs = isPlayerDownstairs();
     }
 
-    void Update() {
+    void FixedUpdate() {
         distanceFromPlayer = Vector3.Distance(transform.position, player.position);
         switch (state) {
             case State.TargetPlayer:

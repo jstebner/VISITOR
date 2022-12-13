@@ -19,7 +19,7 @@ public class playerLineOfSight : MonoBehaviour
 
     
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (visitor == null) {
             return;

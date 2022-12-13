@@ -14,6 +14,8 @@ public class PlayerCamera : MonoBehaviour
 
     private bool hasControl;
 
+    public menuController menuControllerScript;
+
     void Start() {
         hasControl = true;
         Cursor.lockState = CursorLockMode.Locked;
@@ -23,6 +25,10 @@ public class PlayerCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (menuControllerScript.getPaused()) {
+            return;
+        }
+
         if (hasControl) {
             float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
             float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;

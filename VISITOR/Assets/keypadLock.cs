@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class keypadLock : MonoBehaviour
@@ -25,6 +24,7 @@ public class keypadLock : MonoBehaviour
 
     void Start() {
         keypadCanvas = transform.parent.gameObject;
+        setCorrectCode(gunboxScript.getPasscode());
     }
 
     // Update is called once per frame

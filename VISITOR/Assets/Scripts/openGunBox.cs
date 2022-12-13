@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class openGunBox : MonoBehaviour
 {
@@ -8,8 +9,15 @@ public class openGunBox : MonoBehaviour
     [SerializeField] private float rotationSpeed;
     private Transform pivot;
 
+    private string passcode = "";
+
     void Start() {
         pivot = GetComponent<Transform>();
+        for (int i = 0; i < 4; i++) {
+            passcode += Random.Range(0,10);
+        }
+        Debug.Log(passcode);
+        GameObject.Find("code").GetComponent<TextMeshPro>().text = passcode;
     }
 
     void Update() {
@@ -20,5 +28,9 @@ public class openGunBox : MonoBehaviour
 
     public void open() {
         toOpen = true;
+    }
+
+    public string getPasscode() {
+        return passcode;
     }
 }

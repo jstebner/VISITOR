@@ -57,17 +57,17 @@ public class Patrol : MonoBehaviour
     void IncrementLoopWaypointIndex() {
         if (nextWaypointDirection) {
             waypointIndex++;
-            if (waypointIndex == activeWaypoints.Length) {
+            if (waypointIndex >= activeWaypoints.Length) {
                 waypointIndex = 0;
             }
         } else {
             waypointIndex--;
-            if (waypointIndex == 0) {
+            if (waypointIndex <= 0) {
                 waypointIndex = activeWaypoints.Length - 1;
             }
         }
         jumpsBeforeWaiting--;
-        Debug.Log(jumpsBeforeWaiting);
+        //Debug.Log(jumpsBeforeWaiting);
         distanceFromWaypoint = Vector2.Distance(transform.position, activeWaypoints[waypointIndex].position);
     }
 
@@ -134,7 +134,7 @@ public class Patrol : MonoBehaviour
         activeWaypoints = null;
         setRemainingJumps(Random.Range(5, 15));
         bool newDirection = Random.Range(0, 2) == 1;
-        Debug.Log($"Direction: {newDirection}");
+        //Debug.Log($"Direction: {newDirection}");
         setDirection(newDirection);
     }
 

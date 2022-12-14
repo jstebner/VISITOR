@@ -12,14 +12,17 @@ public class Gun : MonoBehaviour
     [SerializeField] private float fireRate;
     private bool reloading;
     private float timeSinceLastShot;
-    public Transform bulletDirection;
+    private Transform bulletDirection;
     public AudioSource gunShotSoundEffect;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
+
+    void OnEnable() {
         playerShoot.shootInput += Shoot;
         playerShoot.reload += StartReload;
+    }
+
+    void OnDisable() {
+        playerShoot.shootInput -= Shoot;
+        playerShoot.reload -= StartReload;
     }
 
     public void StartReload() {
@@ -48,9 +51,12 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     private void Shoot()
     {
+        Debug.Log("Gun Script Shoot Function");
         if (currentAmmo > 0 && CanShoot()) {
+            Debug.Log("Gun Script Shot");
+            bulletDirection = GameObject.Find("barrelDirection").transform;
             if (Physics.Raycast(bulletDirection.position, bulletDirection.forward, out RaycastHit hitInfo, maxDistance)) {
-                Debug.Log(hitInfo.transform.name);
+                Debug.Log($"Gun Script Hit {hitInfo.transform.name}");
                 IDamageable target = hitInfo.transform.GetComponent<IDamageable>();
                 target?.Damage(damage);
             }

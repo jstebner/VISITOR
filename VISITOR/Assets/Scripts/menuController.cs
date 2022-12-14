@@ -28,10 +28,10 @@ public class menuController : MonoBehaviour
 
     void Update() {
         if (Input.GetKeyDown(KeyCode.Escape)) {
-            Debug.Log($"Keypad: {KeypadUI.activeSelf}");
-            Debug.Log($"DeathScreen: {DeathScreenUI.activeSelf}");
-            Debug.Log($"WinScreen: {WinScreenUI.activeSelf}");
-            Debug.Log($"Paused: {isPaused}");
+            //Debug.Log($"Keypad: {KeypadUI.activeSelf}");
+            //Debug.Log($"DeathScreen: {DeathScreenUI.activeSelf}");
+            //Debug.Log($"WinScreen: {WinScreenUI.activeSelf}");
+            //Debug.Log($"Paused: {isPaused}");
             if (isPaused) {
                 PauseScreenUI.SetActive(false);
                 Time.timeScale = 1f;

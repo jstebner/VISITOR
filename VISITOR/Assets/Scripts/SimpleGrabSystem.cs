@@ -24,7 +24,7 @@ public class SimpleGrabSystem : MonoBehaviour
         shootScript = GameObject.Find("Player").GetComponent<playerShoot>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (menuControllerScript.getPaused()) {
             return;

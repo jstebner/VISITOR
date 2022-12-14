@@ -13,14 +13,14 @@ public class keypadLock : MonoBehaviour
     private string currentCodeValue = "";
 
     void OnEnable() {
-        Debug.Log("camera control: false");
+        //Debug.Log("camera control: false");
         playerCamera.setControl(false);
         codeText.text = "";
     }
 
     void OnDisable() {
         playerCamera.setControl(true);
-        Debug.Log("camera control: true");
+        //Debug.Log("camera control: true");
         codeText.text = "";
     }
 

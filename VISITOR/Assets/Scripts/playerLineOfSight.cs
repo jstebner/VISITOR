@@ -43,7 +43,7 @@ public class playerLineOfSight : MonoBehaviour
                 lookingAwayTime = Mathf.Clamp(lookingAwayTime, 0, maxLookingAwayTime);
             }
             if (lookingAwayTime >= maxLookingAwayTime) {
-                Debug.Log("Visitor Waiting Because player looked away");
+                //Debug.Log("Visitor Waiting Because player looked away");
                 visitorScript.setState(Visitor.State.Waiting);
                 lineOfSightTime = 0;
                 lookingAwayTime = 0;
@@ -58,11 +58,7 @@ public class playerLineOfSight : MonoBehaviour
     public bool hasLineOfSightWithWaypoint(Transform obj) {
         Vector3 dirFromPlayerToObject = (obj.position - transform.position).normalized;
         float maxDistance = Vector3.Distance(transform.position, obj.position);
-        bool hit = Physics.Raycast(transform.position, dirFromPlayerToObject, out RaycastHit hitInfo, maxDistance);
-        if (hit) {
-            print($"Hit object when raycasting to {obj.name}: {hitInfo.transform.name}");
-        }
-        return !hit;
+        return !Physics.Raycast(transform.position, dirFromPlayerToObject, out RaycastHit hitInfo, maxDistance);
     }
 
     private bool hasLineOfSightWithVisitor() {

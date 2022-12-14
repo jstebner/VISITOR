@@ -23,6 +23,7 @@ public class playerShoot : MonoBehaviour
         }
 
         if (Input.GetMouseButtonDown(0)) {
+            Debug.Log("PlayerShoot Script Invoke shootInput");
             shootInput?.Invoke();
         }
         if (Input.GetKeyDown(KeyCode.R)) {

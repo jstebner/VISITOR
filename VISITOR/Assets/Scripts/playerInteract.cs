@@ -18,7 +18,7 @@ public class playerInteract : MonoBehaviour
             return;
         }
         if (Input.GetKeyDown(KeyCode.F)) {
-            Debug.Log("pressed F");
+            //Debug.Log("pressed F");
             if (keypad.activeSelf) {
                 keypad.SetActive(false);
                 Cursor.lockState = CursorLockMode.Locked;
@@ -31,7 +31,7 @@ public class playerInteract : MonoBehaviour
                 keypad.SetActive(true);
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
-                Debug.Log("Keypad");
+                //Debug.Log("Keypad");
             }
         }
         if (keypad.activeSelf == true) {

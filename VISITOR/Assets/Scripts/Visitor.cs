@@ -86,7 +86,7 @@ public class Visitor : MonoBehaviour, IDamageable
                     trackPlayer();
                     timeTargetingPlayer += Time.deltaTime;
                     if (timeTargetingPlayer >= maxTimeToTargetPlayer) {
-                        Debug.Log("Visitor waiting because targeting player for too long");
+                        //Debug.Log("Visitor waiting because targeting player for too long");
                         setState(State.Waiting);
                         player.GetComponent<playerLineOfSight>().resetLookTime();
                     }
@@ -122,7 +122,7 @@ public class Visitor : MonoBehaviour, IDamageable
 
     public void Damage(float damage)
     {
-        Debug.Log("Damaged");
+        //Debug.Log("Damaged");
         health -= damage;
         if (health <= 0) {
             Destroy(gameObject);
@@ -151,7 +151,7 @@ public class Visitor : MonoBehaviour, IDamageable
         }
         switch (newState) {
             case State.Waiting:
-                Debug.Log("Waiting");
+                //Debug.Log("Waiting");
                 agent.Warp(waitingPosition.transform.position);
                 waitingTime = Random.Range(5f,10f);
                 agent.isStopped = true;
@@ -159,7 +159,7 @@ public class Visitor : MonoBehaviour, IDamageable
                 break;
             case State.Patrol:
                 agent.speed = 3.5f;
-                Debug.Log("Patrol");
+                //Debug.Log("Patrol");
                 agent.SetDestination(agent.transform.position);
                 agent.isStopped = true;
                 state = State.Patrol;
@@ -168,7 +168,7 @@ public class Visitor : MonoBehaviour, IDamageable
                 break;
             case State.TargetPlayer:
                 agent.speed = 9f;
-                Debug.Log("TARGET PLAYER");
+                //Debug.Log("TARGET PLAYER");
                 agent.SetDestination(agent.transform.position);
                 agent.isStopped = true;
                 state = State.TargetPlayer;

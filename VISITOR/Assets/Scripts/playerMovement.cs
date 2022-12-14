@@ -44,7 +44,6 @@ public class playerMovement : MonoBehaviour
         verticalInput = Input.GetAxisRaw("Vertical");
         
         if (Input.GetKey(KeyCode.Space) && readyToJump && isGrounded) {
-            Debug.Log("Jump");
             readyToJump = false;
             Jump();
             Invoke(nameof(resetJump), jumpCooldown);

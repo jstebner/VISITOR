@@ -35,8 +35,8 @@ public class playerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        movePlayer();
         if (!canMove) return;
+        movePlayer();
 
         isGrounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.1f, whatIsGround);
         

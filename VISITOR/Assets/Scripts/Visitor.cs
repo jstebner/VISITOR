@@ -63,13 +63,13 @@ public class Visitor : MonoBehaviour, IDamageable
                     resetTime = 0;
                     if (closeToPlayerTime >= maxCloseToPlayerTime && !playerIsDead) {
                         player.GetComponent<playerMovement>().canMove = false;
+                        player.GetComponent<Rigidbody>().velocity = Vector3.zero;
                         playerDeathSound.Play();
                         deathScreenUI.SetActive(true);
                         Cursor.lockState = CursorLockMode.None;
                         Cursor.visible = true;
                         playerCamera.setControl(false);
                         playerIsDead = true;
-                        player.GetComponent<playerMovement>().canMove = false;
                         agent.SetDestination(agent.transform.position);
                         agent.isStopped = true;
                     }
@@ -127,6 +127,7 @@ public class Visitor : MonoBehaviour, IDamageable
         if (health <= 0) {
             Destroy(gameObject);
             player.GetComponent<playerMovement>().canMove = false;
+            player.GetComponent<Rigidbody>().velocity = Vector3.zero;
             winScreenUI.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
